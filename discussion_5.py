@@ -3,8 +3,8 @@ import unittest
 # Counts the number of a's in a sentence (e.g., a string)
 def count_a(sentence):
 	total = 0
-	for i in range(len(sentence) - 1):
-		if i == 'a':
+	for i in range(len(sentence)):
+		if sentence[i] == 'a':
 			total += 1
 	return total
 
@@ -38,15 +38,27 @@ class Warehouse:
 
 	# Adds an item to the warehouse	
 	def add_item(self, item):
-		pass
+		self.items.append(item)
 
 	# Returns the item in the warehouse with the most stock		
 	def get_max_stock(self):
-		pass
+		max_stock = 0
+		max_stock_item = None
+		for item in self.items:
+			if item.stock > max_stock:
+				max_stock = item.stock
+				max_stock_item = item
+		return max_stock_item
 	
 	# Returns the item in the warehouse with the highest price
 	def get_max_price(self):
-		pass	
+		max_price = 0
+		item_maxprice = None
+		for item in self.items:
+			if item.price > max_price:
+				max_price = item.price
+				item_maxprice = item
+		return item_maxprice	
 
 
 
@@ -63,22 +75,37 @@ class TestAllMethods(unittest.TestCase):
 
 	## Check to see whether count_a works
 	def test_count_a(self):
-		pass
+		aaa_count = count_a('aaa')
+		self.assertEqual(aaa_count, 3)
+
+		abcade_count = count_a('abcade')
+		self.assertEqual(abcade_count, 2)
 
 
 	## Check to see whether you can add an item to the warehouse
 	def test_add_item(self):
-		pass
+		warehouse1 = Warehouse()
+		warehouse1.add_item(self.item1)
+		warehouse1.add_item(self.item2)
+		self.assertEqual(warehouse1.items, [self.item1, self.item2])
 
 
 	## Check to see whether warehouse correctly returns the item with the most stock
 	def test_warehouse_max_stocks(self):
-		pass
+		maxstock1 = Warehouse([self.item1, self.item2, self.item3, self.item5])
+		mxstock = maxstock1.get_max_stock()
+		self.assertEqual(mxstock, self.item3)
+
+		maxstock1 = Warehouse([self.item1, self.item2])
+		mxstock = maxstock1.get_max_stock()
+		self.assertEqual(mxstock, self.item2)
 
 
 	# Check to see whether the warehouse correctly return the item with the highest price
 	def test_warehouse_max_price(self):
-		pass
+		maxprice1 = Warehouse([self.item1, self.item3, self.item5])
+		mxprice = maxprice1.get_max_price()
+		self.assertEqual(mxprice, self.item1)
 		
 
 def main():
